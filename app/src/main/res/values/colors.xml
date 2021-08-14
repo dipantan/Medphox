@@ -14,4 +14,5 @@
     <color name="light_blue_A400">#FF00B0FF</color>
     <color name="black_overlay">#66000000</color>
     <color name="shimmer_placeholder">#dddddd</color>
+    <color name="background">#54B1E8E6</color>
 </resources>

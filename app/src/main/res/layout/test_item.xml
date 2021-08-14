@@ -16,42 +16,44 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:orientation="vertical">
 
             <ImageView
-                android:background="@color/shimmer_placeholder"
-                android:id="@+id/imagelist"
+                android:id="@+id/image_list_test"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:layout_marginTop="4dp"
+                android:scaleType="centerCrop"
+                android:src="@color/design_default_color_primary_variant"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:layout_marginTop="3dp"
-                android:id="@+id/name"
+                android:id="@+id/name_test"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/shimmer_placeholder"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
+                android:text="name"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imagelist" />
+                app:layout_constraintTop_toBottomOf="@+id/image_list_test" />
 
             <TextView
-                android:layout_marginTop="5dp"
-                android:background="@color/shimmer_placeholder"
-                android:id="@+id/price"
+                android:id="@+id/price_test"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:textSize="16sp"
+                android:text="Price"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/name"
+                app:layout_constraintTop_toBottomOf="@+id/name_test"
                 app:layout_constraintVertical_bias="0.16000003" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,15 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.medphox.R;
-import com.example.medphox.model.ItemModel;
+import com.example.medphox.model.TestModel;
 
 import java.util.ArrayList;
 
-public class RecyclerHomeAdapter extends RecyclerView.Adapter<RecyclerHomeAdapter.MyViewHolder> {
-    private final ArrayList<ItemModel> list;
+public class AdapterTest extends RecyclerView.Adapter<AdapterTest.MyViewHolder> {
+    private final ArrayList<TestModel> list;
     private final Context context;
 
-    public RecyclerHomeAdapter(ArrayList<ItemModel> list, Context context) {
+    public AdapterTest(ArrayList<TestModel> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -29,17 +29,17 @@ public class RecyclerHomeAdapter extends RecyclerView.Adapter<RecyclerHomeAdapte
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.test_item, parent, false);
         return new MyViewHolder(view);
     }
 
 
     @SuppressLint("SetTextI18n")
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        ItemModel model = list.get(position);
+        TestModel model = list.get(position);
         holder.name.setText(model.getName());
         holder.price.setText("\u20B9" + model.getPrice());
-        holder.desc.setText(model.getDescription());
+//        holder.desc.setText(model.getDescription());
         Glide.with(context).load("https://assets.pharmeasy.in/web-assets/dist/951a8017.png").into(holder.imageView);
     }
 
@@ -49,15 +49,14 @@ public class RecyclerHomeAdapter extends RecyclerView.Adapter<RecyclerHomeAdapte
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView name, price, desc;
+        TextView name, price;
         ImageView imageView;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.name);
-            price = itemView.findViewById(R.id.price);
-            desc = itemView.findViewById(R.id.desc);
-            imageView = itemView.findViewById(R.id.imagelist);
+            name = itemView.findViewById(R.id.name_test);
+            price = itemView.findViewById(R.id.price_test);
+            imageView = itemView.findViewById(R.id.image_list_test);
         }
     }
 }

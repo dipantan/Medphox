@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ItemModel {
+public class TopBookedItemModel {
     private String name, price, description;
 
 }

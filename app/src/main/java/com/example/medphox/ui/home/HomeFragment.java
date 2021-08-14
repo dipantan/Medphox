@@ -18,8 +18,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.medphox.R;
-import com.example.medphox.adapter.RecyclerHomeAdapter;
-import com.example.medphox.model.ItemModel;
+import com.example.medphox.adapter.AdapterTest;
+import com.example.medphox.adapter.AdapterTopBookedItem;
+import com.example.medphox.model.TestModel;
+import com.example.medphox.model.TopBookedItemModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import org.json.JSONObject;
@@ -27,14 +29,19 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
-    private ArrayList<ItemModel> list;
-    private RecyclerHomeAdapter adapter;
+    private ArrayList<TopBookedItemModel> topBookedItemModels;
+    private ArrayList<TestModel> testModels;
+    private AdapterTopBookedItem adapterTopBookedItem;
+    private AdapterTest adapterTest;
     private RequestQueue queue;
     private ShimmerFrameLayout mFrameLayout;
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerTopBookedItem, recyclerTest;
+//    http://www.dipantan.me/api.php?case=test
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        topBookedItemModels = new ArrayList<>();
+        testModels = new ArrayList<>();
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
@@ -43,19 +50,25 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
         queue = Volley.newRequestQueue(view.getContext());
-        list = new ArrayList<>();
-        adapter = new RecyclerHomeAdapter(list, view.getContext());
-        LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        adapterTopBookedItem = new AdapterTopBookedItem(topBookedItemModels, view.getContext());
+        adapterTest = new AdapterTest(testModels, view.getContext());
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(view.getContext());
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(view.getContext());
+        layoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
+        layoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerTopBookedItem.setLayoutManager(layoutManager1);
+        recyclerTopBookedItem.setAdapter(adapterTopBookedItem);
+        recyclerTest.setLayoutManager(layoutManager2);
+        recyclerTest.setAdapter(adapterTest);
         mFrameLayout.startShimmer();
         topBookedItems(view);
+        test(view);
     }
 
     void initView(View view) {
         mFrameLayout = view.findViewById(R.id.shimmerLayout);
-        recyclerView = view.findViewById(R.id.rechome);
+        recyclerTopBookedItem = view.findViewById(R.id.recycler_top_booked_item);
+        recyclerTest = view.findViewById(R.id.recycler_test);
     }
 
     void topBookedItems(View view) {
@@ -63,15 +76,54 @@ public class HomeFragment extends Fragment {
         @SuppressLint("NotifyDataSetChanged") JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, response -> {
             try {
                 for (int i = 0; i < response.length(); i++) {
-                    ItemModel model = new ItemModel();
+                    TopBookedItemModel model = new TopBookedItemModel();
                     JSONObject jsonObject = response.getJSONObject(i);
                     model.setName(jsonObject.getString("name"));
                     model.setPrice(jsonObject.getString("price"));
                     model.setDescription(jsonObject.getString("description"));
-                    list.add(model);
+                    topBookedItemModels.add(model);
                     mFrameLayout.setVisibility(View.GONE);
-                    adapter.notifyDataSetChanged();
+                    adapterTopBookedItem.notifyDataSetChanged();
 
+                }
+            } catch (Exception e) {
+                AlertDialog alertDialog = new AlertDialog.Builder(view.getContext()).create();
+                alertDialog.setTitle("Error");
+                alertDialog.setMessage(e.getMessage());
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        (dialog, which) -> dialog.dismiss());
+                alertDialog.show();
+            }
+        }, error -> {
+            AlertDialog alertDialog = new AlertDialog.Builder(view.getContext()).create();
+            alertDialog.setTitle("Error");
+            alertDialog.setMessage(error.getMessage());
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    (dialog, which) -> dialog.dismiss());
+            alertDialog.show();
+        });
+        int MY_SOCKET_TIMEOUT_MS = 5000;
+        jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        ));
+        queue.add(jsonArrayRequest);
+    }
+
+    void test(View view) {
+        String url = "https://www.dipantan.me/api.php?case=test";
+        @SuppressLint("NotifyDataSetChanged") JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, response -> {
+            try {
+                for (int i = 0; i < response.length(); i++) {
+                    TestModel model = new TestModel();
+                    JSONObject jsonObject = response.getJSONObject(i);
+                    model.setName(jsonObject.getString("testType"));
+                    model.setPrice(jsonObject.getString("testAmount"));
+                    model.setDescription(jsonObject.getString("TestDescription"));
+                    testModels.add(model);
+                    mFrameLayout.setVisibility(View.GONE);
+                    adapterTest.notifyDataSetChanged();
                 }
             } catch (Exception e) {
                 AlertDialog alertDialog = new AlertDialog.Builder(view.getContext()).create();
