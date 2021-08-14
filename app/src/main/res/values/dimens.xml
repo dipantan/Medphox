@@ -3,8 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="height">40dp</dimen>
-    <dimen name="start_margin">18dp</dimen>
-    <dimen name="hw">35dp</dimen>
-    <dimen name="next">20dp</dimen>
-    <dimen name="next_height">25dp</dimen>
+    <dimen name="start_margin">16dp</dimen>
+    <dimen name="hw">32dp</dimen>
+    <dimen name="next">24dp</dimen>
+    <dimen name="next_height">24dp</dimen>
 </resources>
