@@ -1,5 +1,6 @@
 package com.example.medphox.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,10 +34,11 @@ public class RecyclerHomeAdapter extends RecyclerView.Adapter<RecyclerHomeAdapte
     }
 
 
+    @SuppressLint("SetTextI18n")
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         ItemModel model = list.get(position);
         holder.name.setText(model.getName());
-        holder.price.setText(model.getPrice());
+        holder.price.setText("\u20B9" + model.getPrice());
         holder.desc.setText(model.getDescription());
         Glide.with(context).load("https://assets.pharmeasy.in/web-assets/dist/951a8017.png").into(holder.imageView);
     }
